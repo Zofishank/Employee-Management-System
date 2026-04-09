@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  50% { transform: rotate(-2deg); }
+  75% { transform: rotate(2deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake-hover:hover {
+  animation: shake 0.3s infinite;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 4rem; /* match sidebar w-16 */
+  }
+}
+
+@media (min-width: 768px) {
+  .main {
+    margin-left: 15rem; /* match sidebar md:w-60 */
+  }
+}
+
