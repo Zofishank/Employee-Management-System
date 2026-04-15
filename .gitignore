@@ -1,24 +1,11 @@
-# Dependencies
 node_modules/
 **/node_modules/
-
-# Environment variables - NEVER commit these
-.env
-**/.env
-
-# Build output
+.vite/
+**/.vite/
 dist/
 build/
-.vite/
-
-# Logs
-*.log
-npm-debug.log*
-
-# OS files
+.env
+.env.local
+.env.production
 .DS_Store
 Thumbs.db
-
-# Uploads (avatars stored locally)
-Backend/uploads/avatars/*
-!Backend/uploads/avatars/.gitkeep
