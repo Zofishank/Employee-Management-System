@@ -9,3 +9,4 @@ build/
 .env.production
 .DS_Store
 Thumbs.db
+.env
