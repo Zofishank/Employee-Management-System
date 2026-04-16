@@ -5,7 +5,7 @@ import EmployeeSidebar from "../Components/Employee/SidebarMenu/EmployeeSidebar"
 import Dashboard from "../Components/Employee/Dashboard/Dashboard";
 import Tasks from "../Components/Employee/Tasks/manageTasks";
 import TaskDetails from "../Components/Employee/TaskDetail/TaskDetails";
-import EditProfile from "../Components/Employee/EditProfile/editProfile";
+import EditProfile from "../Components/Employee/EditProfile/EditProfile";
 import AIAssistant from "../Components/Employee/aiAssistant/aiAssistant";
 import MyProgress from "../Components/Employee/MyProgress/myProgress";
 import RecentTasks from "../Components/Employee/recentTasks/recentTasks";
