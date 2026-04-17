@@ -1,6 +1,6 @@
 import React from 'react'
 import Lottie from "lottie-react";
-import HistoryIcon from "../../../assets/historyIcon.json"; 
+import HistoryIcon from "../../../assets/HistoryIcon.json"; 
 
 const HistoryHeader = () => {
   return (

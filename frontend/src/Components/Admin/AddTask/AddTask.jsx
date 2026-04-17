@@ -3,7 +3,7 @@ import lottie from "lottie-web";
 import Lottie from "lottie-react";
 import { defineElement } from "lord-icon-element";
 import TaskIcon from "../../../assets/taskIcon.json";
-import AssignIcon from "../../../assets/assignIcon.json";
+import AssignIcon from "../../../assets/AssignIcon.json";
 import AdminSidebar from "../SidebarMenu/AdminSidebar"
 import { CheckCircle2, AlertCircle } from "lucide-react";
 
