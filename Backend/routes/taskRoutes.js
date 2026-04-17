@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Task = require("../models/task");
 const User = require("../models/user");
-const auth = require("../middleware/authmiddleware");
+const auth = require("../middleware/authMiddleware");
 
 /* GET /api/tasks — tasks for current user */
 router.get("/", auth, async (req, res) => {

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Message = require("../models/msg");
-const auth = require("../middleware/authmiddleware");
+const auth = require("../middleware/authMiddleware");
 
 /* GET /api/messages — employee's own messages */
 router.get("/", auth, async (req, res) => {

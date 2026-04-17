@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const User = require("../models/user");
-const auth = require("../middleware/authmiddleware");
+const auth = require("../middleware/authMiddleware");
 
 /* ── Multer config ── */
 const storage = multer.diskStorage({
