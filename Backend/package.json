@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "build": "echo 'Building...'"
+    "build": "vite build"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
