@@ -141,7 +141,7 @@ const NotificationsPage = () => {
       return;
     }
 
-    fetch("http://localhost:5000/api/tasks", {
+    fetch(import.meta.env.VITE_API_URL + "/api/tasks", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => (r.ok ? r.json() : []))

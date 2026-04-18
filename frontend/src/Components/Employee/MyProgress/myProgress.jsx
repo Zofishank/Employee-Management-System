@@ -20,7 +20,7 @@ const MyProgress = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/tasks", {
+        const res = await fetch(import.meta.env.VITE_API_URL + "/api/tasks", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error();

@@ -9,15 +9,19 @@ const app = express();
 /* ── CORS ── */
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:3000",
+  "http://localhost:5000",
   process.env.FRONTEND_URL,
+  /\.vercel\.app$/,
 ].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin))
-        return callback(null, true);
+      if (!origin) return callback(null, true);
+      const allowed = allowedOrigins.some((o) =>
+        o instanceof RegExp ? o.test(origin) : o === origin,
+      );
+      if (allowed) return callback(null, true);
       callback(new Error(`CORS blocked: ${origin}`));
     },
     credentials: true,

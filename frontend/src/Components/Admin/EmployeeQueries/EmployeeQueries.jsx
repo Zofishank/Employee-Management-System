@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 import AdminSidebar from "../SidebarMenu/AdminSidebar";
 import { MessageSquare, Send, Users } from "lucide-react";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL + "";
 
 const Avatar = ({ user, size = 36 }) => {
   const [err, setErr] = useState(false);

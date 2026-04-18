@@ -42,7 +42,7 @@ const AddTask = () => {
     setStatus(null);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/api/tasks", {
+      const res = await fetch(import.meta.env.VITE_API_URL + "/api/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

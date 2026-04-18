@@ -48,7 +48,7 @@ const TaskHistory = () => {
   useEffect(() => {
     const fetchTaskData = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/tasks/all", {
+        const res = await fetch(import.meta.env.VITE_API_URL + "/api/tasks/all", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();

@@ -5,7 +5,7 @@
 // Production  : whatever VITE_API_URL is set to in Vercel
 // ─────────────────────────────────────────────────────────
 
-export const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+export const BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL + "";
 
 /**
  * Authenticated fetch — automatically adds Bearer token

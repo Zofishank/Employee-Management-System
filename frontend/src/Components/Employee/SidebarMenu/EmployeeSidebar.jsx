@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useNotification } from "../../Employee/notifications/Notifications";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL + "";
 
 const buildAvatarURL = (avatar) => {
   if (!avatar) return "";

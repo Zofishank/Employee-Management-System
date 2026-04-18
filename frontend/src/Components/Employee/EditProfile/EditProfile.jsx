@@ -21,7 +21,7 @@ const EditProfile = () => {
     if (!token) return;
     const fetchProfile = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/users/me", {
+        const res = await fetch(import.meta.env.VITE_API_URL + "/api/users/me", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) {
@@ -37,7 +37,7 @@ const EditProfile = () => {
           password: "",
         });
         const fullAvatarURL = data.avatar
-          ? `http://localhost:5000${data.avatar}`
+          ? `${import.meta.env.VITE_API_URL}${data.avatar}`
           : "";
         setAvatarPreview(fullAvatarURL);
         localStorage.setItem(
@@ -77,7 +77,7 @@ const EditProfile = () => {
       if (formData.password) updateData.append("password", formData.password);
       if (avatar) updateData.append("avatar", avatar);
 
-      const res = await fetch("http://localhost:5000/api/users/update", {
+      const res = await fetch(import.meta.env.VITE_API_URL + "/api/users/update", {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
         body: updateData,
@@ -101,7 +101,7 @@ const EditProfile = () => {
         "success",
       );
       const fullAvatarURL = data.user.avatar
-        ? `http://localhost:5000${data.user.avatar}`
+        ? `${import.meta.env.VITE_API_URL}${data.user.avatar}`
         : "";
       setFormData((prev) => ({ ...prev, password: "" }));
       setAvatar(null);

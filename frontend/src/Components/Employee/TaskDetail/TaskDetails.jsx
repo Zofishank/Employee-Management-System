@@ -102,7 +102,7 @@ const TaskDetails = ({ userData }) => {
           return;
         }
 
-        const res = await fetch(`http://localhost:5000/api/tasks/${id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

@@ -20,10 +20,10 @@ const Welcome = () => {
     const fetchData = async () => {
       try {
         const [userRes, taskRes] = await Promise.all([
-          fetch("http://localhost:5000/api/users/me", {
+          fetch(import.meta.env.VITE_API_URL + "/api/users/me", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          fetch("http://localhost:5000/api/tasks", {
+          fetch(import.meta.env.VITE_API_URL + "/api/tasks", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);

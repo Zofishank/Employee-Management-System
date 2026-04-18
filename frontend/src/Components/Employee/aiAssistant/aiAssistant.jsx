@@ -75,7 +75,7 @@ const AIAssistant = () => {
   useEffect(() => {
     const fetchAdminMessages = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/messages", {
+        const res = await fetch(import.meta.env.VITE_API_URL + "/api/messages", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -139,7 +139,7 @@ const AIAssistant = () => {
     ]);
     setInput("");
     try {
-      const res = await fetch("http://localhost:5000/api/messages", {
+      const res = await fetch(import.meta.env.VITE_API_URL + "/api/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

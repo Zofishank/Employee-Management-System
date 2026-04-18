@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminSidebar from "../SidebarMenu/AdminSidebar";
 import { Users, Search, Shield, User } from "lucide-react";
 
-const BASE_URL = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL + "";
 
 const buildAvatarURL = (avatar) => {
   if (!avatar) return "";

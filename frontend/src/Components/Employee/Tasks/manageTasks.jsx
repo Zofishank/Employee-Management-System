@@ -60,7 +60,7 @@ const Tasks = () => {
 
   const fetchTasks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/tasks", {
+      const res = await axios.get(import.meta.env.VITE_API_URL + "/api/tasks", {
         headers: { Authorization: `Bearer ${token}` },
         params: { assignedToMe: true },
       });
@@ -86,7 +86,7 @@ const Tasks = () => {
     );
     try {
       await axios.put(
-        `http://localhost:5000/api/tasks/update/${taskId}`,
+        `${import.meta.env.VITE_API_URL}/api/tasks/update/${taskId}`,
         { status: newStatus },
         axiosConfig,
       );
