@@ -24,7 +24,7 @@ const AddTask = () => {
     defineElement(lottie.loadAnimation);
     const token = localStorage.getItem("token");
     const API = import.meta.env.VITE_API_URL;
-    fetch(`${API}/users`, {
+    fetch(`${API}/api/users`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
