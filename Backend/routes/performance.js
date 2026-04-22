@@ -1,56 +1,67 @@
 const express = require("express");
 const router = express.Router();
-const Message = require("../models/msg");
+const Task = require("../models/task");
+const User = require("../models/user");
 const auth = require("../middleware/authMiddleware");
 
-/* GET /api/messages — employee's own messages */
+/* GET /api/performance - all employees performance */
 router.get("/", auth, async (req, res) => {
   try {
-    const messages = await Message.find({
-      $or: [{ sender: req.user._id }, { receiver: req.user._id }],
-    })
-      .populate("sender", "username email avatar role")
-      .populate("receiver", "username email avatar role")
-      .sort({ createdAt: 1 });
-    res.json(messages);
+    const employees = await User.find({ role: "employee" }).select("-password");
+    const data = await Promise.all(
+      employees.map(async (emp) => {
+        const tasks = await Task.find({ assignToUserId: emp._id });
+        const completed = tasks.filter((t) => t.status === "completed").length;
+        const pending = tasks.filter((t) => t.status === "pending").length;
+        return { user: emp, completed, pending, total: tasks.length };
+      }),
+    );
+    res.json(data);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-/* POST /api/messages — employee sends message to admin */
-router.post("/", auth, async (req, res) => {
+/* GET /api/performance/stats - admin dashboard stats */
+router.get("/stats", auth, async (req, res) => {
   try {
-    const { text, receiver } = req.body;
-    if (!text?.trim() || !receiver)
-      return res
-        .status(400)
-        .json({ message: "Text and receiver are required" });
+    const [totalEmployees, totalTasks, completedTasks, pendingTasks] =
+      await Promise.all([
+        User.countDocuments({ role: "employee" }),
+        Task.countDocuments(),
+        Task.countDocuments({ status: "completed" }),
+        Task.countDocuments({ status: "pending" }),
+      ]);
 
-    const message = await Message.create({
-      text: text.trim(),
-      sender: req.user._id,
-      senderRole: "employee",
-      receiver,
-    });
-    await message.populate([
-      { path: "sender", select: "username email avatar role" },
-      { path: "receiver", select: "username email avatar role" },
+    const recentTasks = await Task.find()
+      .populate("assignToUserId", "username avatar")
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    const topEmployee = await Task.aggregate([
+      { $match: { status: "completed" } },
+      { $group: { _id: "$assignToUserId", count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 1 },
     ]);
-    res.status(201).json(message);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
 
-/* PATCH /api/messages/:id/seen */
-router.patch("/:id/seen", auth, async (req, res) => {
-  try {
-    const msg = await Message.findById(req.params.id);
-    if (!msg) return res.status(404).json({ message: "Message not found" });
-    msg.status = "seen";
-    await msg.save();
-    res.json(msg);
+    let topEmployeeData = null;
+    if (topEmployee.length > 0) {
+      topEmployeeData = await User.findById(topEmployee[0]._id).select(
+        "-password",
+      );
+    }
+
+    res.json({
+      totalEmployees,
+      totalTasks,
+      completedTasks,
+      pendingTasks,
+      completionRate:
+        totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100),
+      recentTasks,
+      topEmployee: topEmployeeData,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
