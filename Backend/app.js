@@ -17,6 +17,7 @@ app.use("/api/tasks", require("./routes/taskRoutes"));
 app.use("/api/messages", require("./routes/messages"));
 app.use("/api/admin/messages", require("./routes/adminMessages"));
 app.use("/api/performance", require("./routes/performance"));
+app.use("/api/appreciation", require("./routes/appreciation"));
 
 app.get("/", (_req, res) =>
   res.json({ status: "ok", message: "WorkHub API running" }),
