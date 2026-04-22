@@ -59,7 +59,7 @@ const AIAssistant = () => {
   const prevCount = useRef(0);
 
   const token = localStorage.getItem("token");
-  const ADMIN_ID = "6942ee147525dd70d6179d7f";
+  const ADMIN_ID = import.meta.env;
 
   /* ── close emoji on outside click ── */
   useEffect(() => {
