@@ -10,7 +10,7 @@ router.get("/", auth, async (req, res) => {
     const now = new Date();
     const data = await Promise.all(
       employees.map(async (emp) => {
-        const tasks = await Task.find({ assignToUserId: emp._id });
+        const tasks = await Task.find({ assignTo: emp._id });
         const completed = tasks.filter(t => t.status === "completed").length;
         const pending = tasks.filter(t => t.status === "pending").length;
         const overdue = tasks.filter(t => t.status === "pending" && t.dueDate && new Date(t.dueDate) < now).length;
@@ -35,13 +35,13 @@ router.get("/stats", auth, async (req, res) => {
     ]);
 
     const recentTasks = await Task.find()
-      .populate("assignToUserId", "username avatar")
+      .populate("assignTo", "username avatar")
       .sort({ createdAt: -1 })
       .limit(5);
 
     const topEmployee = await Task.aggregate([
       { $match: { status: "completed" } },
-      { $group: { _id: "$assignToUserId", count: { $sum: 1 } } },
+      { $group: { _id: "$assignTo", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 1 },
     ]);

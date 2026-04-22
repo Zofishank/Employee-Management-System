@@ -103,7 +103,7 @@ router.put("/update/:id", auth, async (req, res) => {
 
 router.get("/user/:userId", auth, async (req, res) => {
   try {
-    const tasks = await Task.find({ assignToUserId: req.params.userId }).sort({ createdAt: -1 });
+    const tasks = await Task.find({ assignTo: req.params.userId }).sort({ createdAt: -1 });
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -112,7 +112,7 @@ router.get("/user/:userId", auth, async (req, res) => {
 
 router.get("/user/:userId", auth, async (req, res) => {
   try {
-    const tasks = await Task.find({ assignToUserId: req.params.userId }).sort({ createdAt: -1 });
+    const tasks = await Task.find({ assignTo: req.params.userId }).sort({ createdAt: -1 });
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ message: err.message });
