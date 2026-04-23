@@ -2,13 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Message = require("../models/msg");
 const auth = require("../middleware/authMiddleware");
+const User = require("../models/user");
 
-/* GET /api/messages — employee's own messages */
+/* GET /api/admin/messages — all messages for admin */
 router.get("/", auth, async (req, res) => {
   try {
-    const messages = await Message.find({
-      $or: [{ sender: req.user._id }, { receiver: req.user._id }],
-    })
+    const messages = await Message.find()
       .populate("sender", "username email avatar role")
       .populate("receiver", "username email avatar role")
       .sort({ createdAt: 1 });
@@ -18,20 +17,18 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-/* POST /api/messages — employee sends message to admin */
-router.post("/", auth, async (req, res) => {
+/* POST /api/admin/messages/reply — admin replies to employee */
+router.post("/reply", auth, async (req, res) => {
   try {
-    const { text, receiver } = req.body;
-    if (!text?.trim() || !receiver)
-      return res
-        .status(400)
-        .json({ message: "Text and receiver are required" });
+    const { text, employeeId } = req.body;
+    if (!text?.trim() || !employeeId)
+      return res.status(400).json({ message: "Text and employeeId are required" });
 
     const message = await Message.create({
       text: text.trim(),
       sender: req.user._id,
-      senderRole: "employee",
-      receiver,
+      senderRole: "admin",
+      receiver: employeeId,
     });
     await message.populate([
       { path: "sender", select: "username email avatar role" },
@@ -43,13 +40,15 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-/* PATCH /api/messages/:id/seen */
+/* PATCH /api/admin/messages/:id/seen */
 router.patch("/:id/seen", auth, async (req, res) => {
   try {
-    const msg = await Message.findById(req.params.id);
+    const msg = await Message.findByIdAndUpdate(
+      req.params.id,
+      { status: "seen" },
+      { new: true }
+    );
     if (!msg) return res.status(404).json({ message: "Message not found" });
-    msg.status = "seen";
-    await msg.save();
     res.json(msg);
   } catch (err) {
     res.status(500).json({ message: err.message });
